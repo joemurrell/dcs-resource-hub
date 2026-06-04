@@ -24,7 +24,7 @@ body {
     radial-gradient(ellipse 60% 40% at 90% 10%, rgba(59, 130, 246, 0.2), transparent 60%);
   background-attachment: fixed;
   font: 18px/1.4 $helvetica;
-  color: $darkGray;
+  color: $textPrimary;
 }
 
 .container {
@@ -36,7 +36,7 @@ body {
 
 h1, h2, h3, h4, h5, h6 {
   font-family: $helveticaNeue;
-  color: $darkerGray;
+  color: $textStrong;
   font-weight: bold;
 
   line-height: 1.7;
@@ -65,7 +65,7 @@ h3 {
 
 h4 {
   font-size: 18px;
-  color: $gray;
+  color: $textMuted;
 }
 
 p {
@@ -121,17 +121,17 @@ img {
 
 .date {
   font-style: italic;
-  color: $gray;
+  color: $textMuted;
 }
 
 // Specify the color of the selection
 ::-moz-selection {
   color: $black;
-  background: $lightGray;
+  background: $borderDark;
 }
 ::selection {
   color: $black;
-  background: $lightGray;
+  background: $borderDark;
 }
 
 // Nicolas Gallagher's micro clearfix hack
@@ -161,10 +161,14 @@ img {
 .masthead {
   padding: 16px 0;
   border-bottom: 1px solid $borderDark;
-  background: rgba(10, 10, 15, 0.75);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
+  background: rgba(10, 10, 15, 0.92);
   border-radius: 0 0 12px 12px;
+
+  @supports ((backdrop-filter: blur(10px)) or (-webkit-backdrop-filter: blur(10px))) {
+    background: rgba(10, 10, 15, 0.75);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+  }
 
   @include mobile {
     text-align: center;
@@ -201,21 +205,24 @@ img {
 
 .site-name {
   margin: 0;
-  color: $darkGray;
+  color: $textPrimary;
   cursor: pointer;
   font-family: $helveticaNeue;
   font-weight: 700;
   font-size: 28px;
   letter-spacing: 0.5px;
-  background: linear-gradient(135deg, $purple 0%, $blue 100%);
-  -webkit-background-clip: text;
-  background-clip: text;
-  -webkit-text-fill-color: transparent;
+
+  @supports ((-webkit-background-clip: text) or (background-clip: text)) {
+    background: linear-gradient(135deg, $purple 0%, $blue 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
 }
 
 .site-description {
   margin: -2px 0 0 0;
-  color: $gray;
+  color: $textMuted;
   font-size: 15px;
 
   @include mobile {
@@ -238,7 +245,7 @@ nav {
 
   a {
     margin-left: 12px;
-    color: $gray;
+    color: $textMuted;
     text-align: right;
     font-weight: 500;
     letter-spacing: 0.2px;
@@ -250,11 +257,11 @@ nav {
 
     @include mobile {
       margin: 0 10px;
-      color: $darkGray;
+      color: $textPrimary;
     }
 
     &:hover {
-      color: $darkGray;
+      color: $textPrimary;
       border-color: $purple;
       box-shadow: 0 0 0 1px rgba(139, 92, 246, 0.25);
     }
@@ -290,7 +297,7 @@ nav {
     margin: 1.8em .8em;
     border-left: 2px solid $purple;
     padding: 0.1em 1em;
-    color: $gray;
+    color: $textMuted;
     font-size: 22px;
     font-style: italic;
   }
@@ -339,7 +346,7 @@ th, td {
 }
 
 th {
-  color: $darkerGray;
+  color: $textStrong;
 }
 
 tbody tr:hover {
