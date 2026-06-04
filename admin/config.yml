@@ -3,8 +3,7 @@ backend:
   repo: joemurrell/dcs-resource-hub
   branch: main
   # OAuth token exchange is handled by the Cloudflare Worker proxy.
-  # Replace the workers.dev host below with your deployed Worker URL.
-  base_url: https://REPLACE_WITH_YOUR_WORKER.workers.dev
+  base_url: https://decap-proxy.dcs-resource-hub.workers.dev
   auth_endpoint: /auth
 
 media_folder: "assets/images"
