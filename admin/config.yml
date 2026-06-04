@@ -2,8 +2,10 @@ backend:
   name: github
   repo: joemurrell/dcs-resource-hub
   branch: main
-  auth_type: pkce
-  app_id: Ov23liigwri77W4N8OY2
+  # OAuth token exchange is handled by the Cloudflare Worker proxy.
+  # Replace the workers.dev host below with your deployed Worker URL.
+  base_url: https://REPLACE_WITH_YOUR_WORKER.workers.dev
+  auth_endpoint: /auth
 
 media_folder: "assets/images"
 public_folder: "/assets/images"
