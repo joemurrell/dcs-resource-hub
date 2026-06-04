@@ -18,15 +18,19 @@ html {
 }
 
 body {
-	background: $white;
+	background: $bgDark;
+  background-image:
+    radial-gradient(ellipse 80% 50% at 50% -10%, rgba(139, 92, 246, 0.25), transparent 60%),
+    radial-gradient(ellipse 60% 40% at 90% 10%, rgba(59, 130, 246, 0.2), transparent 60%);
+  background-attachment: fixed;
   font: 18px/1.4 $helvetica;
   color: $darkGray;
 }
 
 .container {
   margin: 0 auto;
-  max-width: 740px;
-  padding: 0 10px;
+  max-width: 980px;
+  padding: 0 16px;
   width: 100%;
 }
 
@@ -73,7 +77,7 @@ a {
   text-decoration: none;
 	cursor: pointer;
   &:hover, &:active {
-    color: $blue;
+    color: $purple;
   }
 }
 
@@ -151,12 +155,16 @@ img {
 //
 
 .wrapper-masthead {
-  margin-bottom: 50px;
+  margin-bottom: 30px;
 }
 
 .masthead {
-  padding: 20px 0;
-  border-bottom: 1px solid $lightGray;
+  padding: 16px 0;
+  border-bottom: 1px solid $borderDark;
+  background: rgba(10, 10, 15, 0.75);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border-radius: 0 0 12px 12px;
 
   @include mobile {
     text-align: center;
@@ -176,7 +184,8 @@ img {
   }
 
   img {
-    border-radius: 5px;
+    border-radius: 10px;
+    border: 1px solid $borderDark;
   }
 }
 
@@ -195,15 +204,19 @@ img {
   color: $darkGray;
   cursor: pointer;
   font-family: $helveticaNeue;
-  font-weight: 300;
+  font-weight: 700;
   font-size: 28px;
-  letter-spacing: 1px;
+  letter-spacing: 0.5px;
+  background: linear-gradient(135deg, $purple 0%, $blue 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
 
 .site-description {
-  margin: -5px 0 0 0;
+  margin: -2px 0 0 0;
   color: $gray;
-  font-size: 16px;
+  font-size: 15px;
 
   @include mobile {
     margin: 3px 0;
@@ -212,9 +225,9 @@ img {
 
 nav {
   float: right;
-  margin-top: 23px; // @TODO: Vertically middle align
+  margin-top: 18px; // @TODO: Vertically middle align
   font-family: $helveticaNeue;
-  font-size: 18px;
+  font-size: 16px;
 
   @include mobile {
     float: none;
@@ -224,15 +237,26 @@ nav {
   }
 
   a {
-    margin-left: 20px;
-    color: $darkGray;
+    margin-left: 12px;
+    color: $gray;
     text-align: right;
-    font-weight: 300;
-    letter-spacing: 1px;
+    font-weight: 500;
+    letter-spacing: 0.2px;
+    padding: 8px 12px;
+    border: 1px solid $borderDark;
+    border-radius: 6px;
+    background: $bgElevated;
+    transition: all 0.2s ease;
 
     @include mobile {
       margin: 0 10px;
-      color: $blue;
+      color: $darkGray;
+    }
+
+    &:hover {
+      color: $darkGray;
+      border-color: $purple;
+      box-shadow: 0 0 0 1px rgba(139, 92, 246, 0.25);
     }
   }
 }
@@ -243,7 +267,7 @@ nav {
 
 .posts > .post {
   padding-bottom: 2em;
-  border-bottom: 1px solid $lightGray;
+  border-bottom: 1px solid $borderDark;
 }
 
 .posts > .post:last-child {
@@ -252,9 +276,19 @@ nav {
 }
 
 .post {
+  background: $bgCard;
+  border: 1px solid $borderDark;
+  border-radius: 12px;
+  padding: 24px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.35);
+
+  @include mobile {
+    padding: 18px;
+  }
+
   blockquote {
     margin: 1.8em .8em;
-    border-left: 2px solid $gray;
+    border-left: 2px solid $purple;
     padding: 0.1em 1em;
     color: $gray;
     font-size: 22px;
@@ -271,11 +305,62 @@ nav {
   }
 }
 
+.page {
+  background: $bgCard;
+  border: 1px solid $borderDark;
+  border-radius: 12px;
+  padding: 24px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.35);
+
+  @include mobile {
+    padding: 18px;
+  }
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  background: $bgCard;
+  border: 1px solid $borderDark;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.35);
+}
+
+thead tr {
+  background: $bgElevated;
+}
+
+th, td {
+  padding: 14px 16px;
+  border-bottom: 1px solid $borderDark;
+  text-align: left;
+  vertical-align: top;
+}
+
+th {
+  color: $darkerGray;
+}
+
+tbody tr:hover {
+  background: rgba(22, 22, 31, 0.85);
+}
+
+td span {
+  display: inline-block;
+  margin: 3px 5px 3px 0;
+  padding: 2px 8px;
+  border: 1px solid rgba(96, 165, 250, 0.35);
+  border-radius: 999px;
+  color: $blue;
+  font-size: 13px;
+}
+
 .wrapper-footer {
   margin-top: 50px;
-  border-top: 1px solid #ddd;
-  border-bottom: 1px solid #ddd;
-  background-color: $lightGray;
+  border-top: 1px solid $borderDark;
+  border-bottom: 1px solid $borderDark;
+  background-color: $bgElevated;
 }
 
 footer {
