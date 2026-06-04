@@ -12,7 +12,11 @@ title: DCS Resource Hub
     </tr>
   </thead>
   <tbody>
-    {% for item in site.data.resources %}
+    {% assign resources = site.data.resources %}
+    {% if resources.items %}
+      {% assign resources = resources.items %}
+    {% endif %}
+    {% for item in resources %}
       <tr>
         <td><a href="{{ item.url }}"><b>{{ item.title }}</b></a></td>
         <td>{{ item.excerpt }}</td>

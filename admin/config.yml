@@ -16,7 +16,7 @@ collections:
         format: "yaml"
         fields:
           - label: "Resources"
-            name: "resources"
+            name: "items"
             widget: "list"
             summary: "{{fields.title}}"
             fields:
