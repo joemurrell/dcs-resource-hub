@@ -3,7 +3,7 @@ backend:
   repo: joemurrell/dcs-resource-hub
   branch: main
   auth_type: pkce
-  app_id: REPLACE_WITH_YOUR_OAUTH_APP_CLIENT_ID
+  app_id: Ov23liigwri77W4N8OY2
 
 media_folder: "assets/images"
 public_folder: "/assets/images"
