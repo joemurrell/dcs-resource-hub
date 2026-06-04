@@ -3,15 +3,15 @@ backend:
   repo: joemurrell/dcs-resource-hub
   branch: main
 
-media_folder: "images/uploads"
-public_folder: "/images/uploads"
+media_folder: "assets/images"
+public_folder: "/assets/images"
 
 collections:
   - name: "resources"
-    label: "Resources"
+    label: "DCS Resources"
     files:
-      - label: "Resource List"
-        name: "resource-list"
+      - label: "Master Resource List"
+        name: "resources_list"
         file: "_data/resources.yml"
         format: "yaml"
         fields:
@@ -22,8 +22,9 @@ collections:
             fields:
               - { label: "Title", name: "title", widget: "string" }
               - { label: "URL", name: "url", widget: "string" }
-              - { label: "Excerpt", name: "excerpt", widget: "text" }
+              - { label: "Excerpt", name: "excerpt", widget: "text", required: false }
               - label: "Tags"
                 name: "tags"
-                widget: "list"
-                field: { label: "Tag", name: "value", widget: "string" }
+                widget: "select"
+                multiple: true
+                options: ["Air-to-Ground", "Air-to-Air", "Tools", "News", "Utilities", "F-16C", "F/A-18C"]
