@@ -1,5 +1,9 @@
 backend:
-  name: git-gateway
+  name: github
+  repo: joemurrell/dcs-resource-hub
+  branch: main
+  auth_type: pkce
+  app_id: REPLACE_WITH_YOUR_OAUTH_APP_CLIENT_ID
 
 media_folder: "assets/images"
 public_folder: "/assets/images"
