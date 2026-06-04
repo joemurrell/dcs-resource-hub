@@ -1,7 +1,5 @@
-backend:
-  name: github
-  repo: joemurrell/dcs-resource-hub
-  branch: main
+backend: git-gateway
+
 
 media_folder: "assets/images"
 public_folder: "/assets/images"
