@@ -20,8 +20,8 @@ html {
 body {
 	background: $bgDark;
   background-image:
-    radial-gradient(ellipse 80% 50% at 50% -10%, rgba(139, 92, 246, 0.25), transparent 60%),
-    radial-gradient(ellipse 60% 40% at 90% 10%, rgba(59, 130, 246, 0.2), transparent 60%);
+    radial-gradient(ellipse 80% 50% at 50% -10%, $glowPurple, transparent 60%),
+    radial-gradient(ellipse 60% 40% at 90% 10%, $glowBlue, transparent 60%);
   background-attachment: fixed;
   font: 18px/1.4 $helvetica;
   color: $textPrimary;
@@ -161,11 +161,11 @@ img {
 .masthead {
   padding: 16px 0;
   border-bottom: 1px solid $borderDark;
-  background: rgba(10, 10, 15, 0.92);
+  background: $bgMastheadSolid;
   border-radius: 0 0 12px 12px;
 
   @supports ((backdrop-filter: blur(10px)) or (-webkit-backdrop-filter: blur(10px))) {
-    background: rgba(10, 10, 15, 0.75);
+    background: $bgMastheadBlur;
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
   }
@@ -263,7 +263,7 @@ nav {
     &:hover {
       color: $textPrimary;
       border-color: $purple;
-      box-shadow: 0 0 0 1px rgba(139, 92, 246, 0.25);
+      box-shadow: 0 0 0 1px $shadowPurple;
     }
   }
 }
@@ -357,7 +357,7 @@ td span {
   display: inline-block;
   margin: 3px 5px 3px 0;
   padding: 2px 8px;
-  border: 1px solid rgba(96, 165, 250, 0.35);
+  border: 1px solid $borderBlue;
   border-radius: 999px;
   color: $blue;
   font-size: 13px;
