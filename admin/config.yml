@@ -1,6 +1,4 @@
-backend:
-  git-gateway
-
+backend: git-gateway
 
 media_folder: "assets/images"
 public_folder: "/assets/images"
