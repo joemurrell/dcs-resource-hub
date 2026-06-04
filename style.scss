@@ -287,7 +287,7 @@ nav {
   border: 1px solid $borderDark;
   border-radius: 12px;
   padding: 24px;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.35);
+  box-shadow: 0 8px 32px $shadowCard;
 
   @include mobile {
     padding: 18px;
@@ -317,7 +317,7 @@ nav {
   border: 1px solid $borderDark;
   border-radius: 12px;
   padding: 24px;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.35);
+  box-shadow: 0 8px 32px $shadowCard;
 
   @include mobile {
     padding: 18px;
@@ -331,7 +331,7 @@ table {
   border: 1px solid $borderDark;
   border-radius: 12px;
   overflow: hidden;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.35);
+  box-shadow: 0 8px 32px $shadowCard;
 }
 
 thead tr {
@@ -358,7 +358,7 @@ td span {
   margin: 3px 5px 3px 0;
   padding: 2px 8px;
   border: 1px solid $borderBlue;
-  border-radius: 999px;
+  border-radius: $radiusPill;
   color: $blue;
   font-size: 13px;
 }
