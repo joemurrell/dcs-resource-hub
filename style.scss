@@ -127,11 +127,11 @@ img {
 // Specify the color of the selection
 ::-moz-selection {
   color: $black;
-  background: $borderDark;
+  background: $bgSelection;
 }
 ::selection {
   color: $black;
-  background: $borderDark;
+  background: $bgSelection;
 }
 
 // Nicolas Gallagher's micro clearfix hack
@@ -350,7 +350,7 @@ th {
 }
 
 tbody tr:hover {
-  background: rgba(22, 22, 31, 0.85);
+  background: $bgHover;
 }
 
 td span {
