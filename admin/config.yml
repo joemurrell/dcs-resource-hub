@@ -1,0 +1,29 @@
+backend:
+  name: github
+  repo: joemurrell/dcs-resource-hub
+  branch: main
+
+media_folder: "images/uploads"
+public_folder: "/images/uploads"
+
+collections:
+  - name: "resources"
+    label: "Resources"
+    files:
+      - label: "Resource List"
+        name: "resource-list"
+        file: "_data/resources.yml"
+        format: "yaml"
+        fields:
+          - label: "Resources"
+            name: "resources"
+            widget: "list"
+            summary: "{{fields.title}}"
+            fields:
+              - { label: "Title", name: "title", widget: "string" }
+              - { label: "URL", name: "url", widget: "string" }
+              - { label: "Excerpt", name: "excerpt", widget: "text" }
+              - label: "Tags"
+                name: "tags"
+                widget: "list"
+                field: { label: "Tag", name: "tag", widget: "string" }
