@@ -1,18 +1,27 @@
 ---
 layout: default
+title: DCS Resource Hub
 ---
 
-<div class="posts">
-  {% for post in site.posts %}
-    <article class="post">
-
-      <h1><a href="{{ site.baseurl }}{{ post.url }}">{{ post.title }}</a></h1>
-
-      <div class="entry">
-        {{ post.excerpt }}
-      </div>
-
-      <a href="{{ site.baseurl }}{{ post.url }}" class="read-more">Read More</a>
-    </article>
-  {% endfor %}
-</div>
+<table>
+  <thead>
+    <tr>
+      <th>Resource</th>
+      <th>Description</th>
+      <th>Tags</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for item in site.data.resources.items %}
+      <tr>
+        <td><a href="{{ item.url }}"><b>{{ item.title }}</b></a></td>
+        <td>{{ item.excerpt }}</td>
+        <td>
+          {% for tag in item.tags %}
+            <span>{{ tag }}</span>{% unless forloop.last %}, {% endunless %}
+          {% endfor %}
+        </td>
+      </tr>
+    {% endfor %}
+  </tbody>
+</table>
