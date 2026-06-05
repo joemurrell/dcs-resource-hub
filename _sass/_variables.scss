@@ -2,28 +2,40 @@
 //
 // VARIABLES
 //
+// DCS UPT tactical HUD palette — green-amber phosphor on near-black,
+// mirrored from the dcsupt project so the Resource Hub shares its look.
+//
 
-// Colors
-$blue: #60a5fa;
-$purple: #a78bfa;
-$purpleDeep: #7c3aed;
-$blueDeep: #3b82f6;
-$bgDark: #0a0a0f;
-$bgElevated: #12121a;
-$bgCard: #16161f;
-$bgHover: rgba(22, 22, 31, 0.85);
-$bgSelection: #2f2f4a;
-$bgMastheadSolid: rgba(10, 10, 15, 0.92);
-$bgMastheadBlur: rgba(10, 10, 15, 0.75);
-$borderDark: #24243a;
-$borderBlue: rgba(96, 165, 250, 0.35);
-$shadowPurple: rgba(139, 92, 246, 0.25);
-$shadowCard: rgba(0, 0, 0, 0.35);
-$glowPurple: rgba(139, 92, 246, 0.25);
-$glowBlue: rgba(59, 130, 246, 0.2);
-$radiusPill: 999px;
+// Backgrounds
+$bgDeep: #050807;
+$bgBase: #0a100e;
+$bgElev: #111814;
+$bgCard: #0d1411;
+$bgCardHover: #131c17;
 
-// Grays
+// HUD accents
+$hudGreen: #5fb87a;
+$hudGreenBright: #8aff9e;
+$hudGreenDim: rgba(95, 184, 122, 0.45);
+$hudAmber: #f5b942;
+$hudAmberBright: #ffd066;
+$hudCyan: #6fd3ff;
+$hudRed: #ff5252;
+
+// Lines & shadows
+$line: rgba(95, 184, 122, 0.22);
+$lineStrong: rgba(95, 184, 122, 0.5);
+$shadowHud: 0 0 24px rgba(95, 184, 122, 0.08), 0 0 1px rgba(95, 184, 122, 0.3) inset;
+
+// Text
+$text: #c8d6cf;
+$textDim: #7e8b85;
+$textBright: #e8f1ec;
+
+// Selection
+$bgSelection: rgba(95, 184, 122, 0.25);
+
+// Grays (kept for legacy partials)
 $black: #000;
 $darkerGray: #222;
 $darkGray: #333;
@@ -31,15 +43,10 @@ $gray: #666;
 $lightGray: #eee;
 $white: #fff;
 
-// Theme text colors
-$textStrong: #f5f5fb;
-$textPrimary: #e6e6f0;
-$textMuted: #9898b0;
-
 // Font stacks
-$helvetica: Helvetica, Arial, sans-serif;
-$helveticaNeue: "Helvetica Neue", Helvetica, Arial, sans-serif;
-$georgia: Georgia, serif;
+$mono: 'JetBrains Mono', ui-monospace, monospace;
+$display: 'Oswald', 'Impact', sans-serif;
+$body: 'IBM Plex Sans', system-ui, sans-serif;
 
 // Mobile breakpoints
 @mixin mobile {

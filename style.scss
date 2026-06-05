@@ -5,6 +5,8 @@
 // IMPORTS
 //
 
+@import url('https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&family=IBM+Plex+Sans:wght@300;400;500;600&display=swap');
+
 @import "reset";
 @import "variables";
 // Syntax highlighting @import is at the bottom of this file
@@ -18,67 +20,82 @@ html {
 }
 
 body {
-	background: $bgDark;
-  background-image:
-    radial-gradient(ellipse 80% 50% at 50% -10%, $glowPurple, transparent 60%),
-    radial-gradient(ellipse 60% 40% at 90% 10%, $glowBlue, transparent 60%);
-  background-attachment: fixed;
-  font: 18px/1.4 $helvetica;
-  color: $textPrimary;
+  font-family: $body;
+  background: $bgDeep;
+  color: $text;
+  line-height: 1.6;
+  min-height: 100vh;
+  font-weight: 400;
+  letter-spacing: 0.01em;
+  position: relative;
+  overflow-x: hidden;
+}
+
+// Scanline overlay — subtle, not nauseating
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  background: repeating-linear-gradient(
+    0deg,
+    rgba(95, 184, 122, 0.018) 0px,
+    rgba(95, 184, 122, 0.018) 1px,
+    transparent 1px,
+    transparent 3px
+  );
+  z-index: 1000;
+  mix-blend-mode: screen;
+}
+
+// Vignette
+body::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  background: radial-gradient(ellipse at center, transparent 50%, rgba(0,0,0,0.55) 100%);
+  z-index: 999;
 }
 
 .container {
   margin: 0 auto;
-  max-width: 980px;
-  padding: 0 16px;
+  max-width: 1240px;
+  padding: 0 1.5rem;
   width: 100%;
 }
 
 h1, h2, h3, h4, h5, h6 {
-  font-family: $helveticaNeue;
-  color: $textStrong;
-  font-weight: bold;
-
-  line-height: 1.7;
+  font-family: $display;
+  color: $textBright;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  line-height: 1.2;
   margin: 1em 0 15px;
   padding: 0;
-
-  @include mobile {
-    line-height: 1.4;
-  }
 }
 
 h1 {
   font-size: 30px;
-  a {
-    color: inherit;
-  }
+  a { color: inherit; }
 }
 
-h2 {
-  font-size: 24px;
-}
-
-h3 {
-  font-size: 20px;
-}
+h2 { font-size: 24px; }
+h3 { font-size: 20px; }
 
 h4 {
   font-size: 18px;
-  color: $textMuted;
+  color: $textDim;
 }
 
-p {
-  margin: 15px 0;
-}
+p { margin: 15px 0; }
 
 a {
-  color: $blue;
+  color: $hudGreen;
   text-decoration: none;
-	cursor: pointer;
-  &:hover, &:active {
-    color: $purple;
-  }
+  cursor: pointer;
+  transition: color 0.15s;
+  &:hover, &:active { color: $hudGreenBright; }
 }
 
 ul, ol {
@@ -86,296 +103,304 @@ ul, ol {
   padding-left: 30px;
 }
 
-ul {
-  list-style-type: disc;
-}
+ul { list-style-type: disc; }
+ol { list-style-type: decimal; }
+ol ul, ul ol, ul ul, ol ol { margin: 0; }
+ul ul, ol ul { list-style-type: circle; }
 
-ol {
-  list-style-type: decimal;
-}
+em, i { font-style: italic; }
+strong, b { font-weight: 600; }
 
-ol ul, ul ol, ul ul, ol ol {
-  margin: 0;
-}
-
-ul ul, ol ul {
-  list-style-type: circle;
-}
-
-em, i {
-  font-style: italic;
-}
-
-strong, b {
-  font-weight: bold;
-}
-
-img {
-  max-width: 100%;
-}
-
-// Fixes images in popup boxes from Google Translate
-.gmnoprint img {
-  max-width: none;
-}
+img { max-width: 100%; }
+.gmnoprint img { max-width: none; }
 
 .date {
-  font-style: italic;
-  color: $textMuted;
+  font-family: $mono;
+  color: $textDim;
 }
 
-// Specify the color of the selection
-::-moz-selection {
-  color: $black;
-  background: $bgSelection;
-}
-::selection {
-  color: $black;
-  background: $bgSelection;
-}
+::-moz-selection { color: $textBright; background: $bgSelection; }
+::selection { color: $textBright; background: $bgSelection; }
 
-// Nicolas Gallagher's micro clearfix hack
-// http://nicolasgallagher.com/micro-clearfix-hack/
 .clearfix:before,
-.clearfix:after {
-    content: " ";
-    display: table;
-}
-
-.clearfix:after {
-    clear: both;
-}
+.clearfix:after { content: " "; display: table; }
+.clearfix:after { clear: both; }
 
 /*********************/
 /* LAYOUT / SECTIONS */
 /*********************/
 
 //
-// .masthead
+// Status strip
+//
+
+.status-strip {
+  border-bottom: 1px solid $line;
+  background: $bgDeep;
+  font-family: $mono;
+  font-size: 0.7rem;
+  color: $textDim;
+  letter-spacing: 0.15em;
+}
+
+.status-strip-inner {
+  max-width: 1240px;
+  margin: 0 auto;
+  padding: 0.4rem 1.5rem;
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.status-strip .ok { color: $hudGreenBright; }
+.status-strip .amber { color: $hudAmber; }
+
+.blink { animation: blink 1.6s steps(2) infinite; }
+
+@keyframes blink {
+  0%, 50% { opacity: 1; }
+  50.01%, 100% { opacity: 0.3; }
+}
+
+//
+// Topbar / masthead
 //
 
 .wrapper-masthead {
-  margin-bottom: 30px;
+  border-bottom: 1px solid $line;
+  background: $bgBase;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  margin-bottom: 40px;
 }
 
 .masthead {
-  padding: 16px 0;
-  border-bottom: 1px solid $borderDark;
-  background: $bgMastheadSolid;
-  border-radius: 0 0 12px 12px;
-
-  @supports ((backdrop-filter: blur(10px)) or (-webkit-backdrop-filter: blur(10px))) {
-    background: $bgMastheadBlur;
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
-  }
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 2rem;
+  padding: 1rem 0;
 
   @include mobile {
+    flex-direction: column;
     text-align: center;
+    gap: 1rem;
   }
 }
 
-.site-avatar {
-  float: left;
-  width: 70px;
-  height: 70px;
-  margin-right: 15px;
-
-  @include mobile {
-    float: none;
-    display: block;
-    margin: 0 auto;
-  }
-
-  img {
-    border-radius: 10px;
-    border: 1px solid $borderDark;
-  }
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
 }
 
-.site-info {
-  float: left;
-
-  @include mobile {
-    float: none;
-    display: block;
-    margin: 0 auto;
-  }
+.brand-mark {
+  font-family: $mono;
+  font-weight: 700;
+  font-size: 0.85rem;
+  letter-spacing: 0.12em;
+  color: $hudGreenBright;
+  border: 1px solid $lineStrong;
+  border-radius: 4px;
+  padding: 0.5rem 0.55rem;
+  line-height: 1;
+  box-shadow: $shadowHud;
 }
+
+.site-info { line-height: 1.2; }
 
 .site-name {
   margin: 0;
-  color: $textPrimary;
-  cursor: pointer;
-  font-family: $helveticaNeue;
+  font-family: $display;
   font-weight: 700;
-  font-size: 28px;
-  letter-spacing: 0.5px;
-
-  @supports ((-webkit-background-clip: text) or (background-clip: text)) {
-    background: linear-gradient(135deg, $purple 0%, $blue 100%);
-    -webkit-background-clip: text;
-    background-clip: text;
-    -webkit-text-fill-color: transparent;
-  }
+  font-size: 1.4rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  a { color: $textBright; }
 }
 
 .site-description {
-  margin: -2px 0 0 0;
-  color: $textMuted;
-  font-size: 15px;
-
-  @include mobile {
-    margin: 3px 0;
-  }
+  margin: 2px 0 0 0;
+  font-family: $mono;
+  color: $textDim;
+  font-size: 0.72rem;
+  letter-spacing: 0.1em;
 }
 
 nav {
-  float: right;
-  margin-top: 18px; // @TODO: Vertically middle align
-  font-family: $helveticaNeue;
-  font-size: 16px;
+  display: flex;
+  gap: 1.5rem;
+  align-items: center;
+  flex-wrap: wrap;
 
-  @include mobile {
-    float: none;
-    margin-top: 9px;
-    display: block;
-    font-size: 16px;
-  }
+  @include mobile { justify-content: center; }
 
   a {
-    margin-left: 12px;
-    color: $textMuted;
-    text-align: right;
-    font-weight: 500;
-    letter-spacing: 0.2px;
-    padding: 8px 12px;
-    border: 1px solid $borderDark;
-    border-radius: 6px;
-    background: $bgElevated;
-    transition: all 0.2s ease;
+    font-family: $mono;
+    font-size: 0.78rem;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    color: $textDim;
+    padding: 0.4rem 0;
+    position: relative;
+    transition: color 0.15s;
 
-    @include mobile {
-      margin: 0 10px;
-      color: $textPrimary;
-    }
-
-    &:hover {
-      color: $textPrimary;
-      border-color: $purple;
-      box-shadow: 0 0 0 1px $shadowPurple;
-    }
+    &:hover, &.active { color: $hudGreenBright; }
   }
 }
 
 //
-// .main
+// Resource list
 //
+
+.resource-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+
+.list-header {
+  font-family: $mono;
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  color: $textDim;
+  padding: 0 1.2rem 0.5rem;
+  border-bottom: 1px dashed $line;
+  margin-bottom: 0.4rem;
+}
+
+.resource {
+  display: grid;
+  grid-template-columns: 60px 1fr auto;
+  gap: 1.2rem;
+  align-items: start;
+  padding: 1rem 1.2rem;
+  background: $bgCard;
+  border: 1px solid $line;
+  transition: all 0.2s;
+  color: $text;
+
+  @include mobile {
+    grid-template-columns: 1fr;
+    gap: 0.5rem;
+  }
+
+  &:hover {
+    background: $bgCardHover;
+    border-color: $lineStrong;
+    transform: translateX(2px);
+  }
+}
+
+.resource .marker {
+  font-family: $mono;
+  font-size: 0.7rem;
+  color: $hudAmber;
+  letter-spacing: 0.1em;
+  border-right: 1px dashed $line;
+  padding-right: 1rem;
+  text-align: right;
+
+  @include mobile { border-right: none; text-align: left; }
+}
+
+.resource .title {
+  font-family: $display;
+  font-size: 1.1rem;
+  font-weight: 500;
+  color: $textBright;
+  letter-spacing: 0.02em;
+  margin-bottom: 0.25rem;
+  line-height: 1.2;
+
+  a { color: inherit; &:hover { color: $hudGreenBright; } }
+}
+
+.resource .desc {
+  font-size: 0.88rem;
+  color: $textDim;
+  margin-top: 0.4rem;
+  line-height: 1.5;
+}
+
+.resource .meta {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  justify-content: flex-end;
+  gap: 0.4rem;
+  font-family: $mono;
+  font-size: 0.7rem;
+
+  @include mobile { justify-content: flex-start; }
+}
+
+.resource .tag {
+  padding: 0.15rem 0.5rem;
+  border: 1px solid $hudGreenDim;
+  color: $hudGreen;
+  letter-spacing: 0.12em;
+  font-size: 0.62rem;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+//
+// Pages / posts
+//
+
+.page, .post {
+  background: $bgCard;
+  border: 1px solid $line;
+  padding: 24px;
+  box-shadow: $shadowHud;
+
+  @include mobile { padding: 18px; }
+
+  blockquote {
+    margin: 1.8em .8em;
+    border-left: 2px solid $hudGreen;
+    padding: 0.1em 1em;
+    color: $textDim;
+    font-size: 22px;
+    font-style: italic;
+  }
+}
 
 .posts > .post {
   padding-bottom: 2em;
-  border-bottom: 1px solid $borderDark;
+  border-bottom: 1px solid $line;
 }
-
 .posts > .post:last-child {
   padding-bottom: 1em;
   border-bottom: none;
 }
 
-.post {
-  background: $bgCard;
-  border: 1px solid $borderDark;
-  border-radius: 12px;
-  padding: 24px;
-  box-shadow: 0 8px 32px $shadowCard;
-
-  @include mobile {
-    padding: 18px;
-  }
-
-  blockquote {
-    margin: 1.8em .8em;
-    border-left: 2px solid $purple;
-    padding: 0.1em 1em;
-    color: $textMuted;
-    font-size: 22px;
-    font-style: italic;
-  }
-
-  .comments {
-    margin-top: 10px;
-  }
-
-  .read-more {
-    text-transform: uppercase;
-    font-size: 15px;
-  }
-}
-
-.page {
-  background: $bgCard;
-  border: 1px solid $borderDark;
-  border-radius: 12px;
-  padding: 24px;
-  box-shadow: 0 8px 32px $shadowCard;
-
-  @include mobile {
-    padding: 18px;
-  }
-}
-
-table {
-  width: 100%;
-  border-collapse: collapse;
-  background: $bgCard;
-  border: 1px solid $borderDark;
-  border-radius: 12px;
-  overflow: hidden;
-  box-shadow: 0 8px 32px $shadowCard;
-}
-
-thead tr {
-  background: $bgElevated;
-}
-
-th, td {
-  padding: 14px 16px;
-  border-bottom: 1px solid $borderDark;
-  text-align: left;
-  vertical-align: top;
-}
-
-th {
-  color: $textStrong;
-}
-
-tbody tr:hover {
-  background: $bgHover;
-}
-
-td span {
-  display: inline-block;
-  margin: 3px 5px 3px 0;
-  padding: 2px 8px;
-  border: 1px solid $borderBlue;
-  border-radius: $radiusPill;
-  color: $blue;
-  font-size: 13px;
-}
+//
+// Footer
+//
 
 .wrapper-footer {
-  margin-top: 50px;
-  border-top: 1px solid $borderDark;
-  border-bottom: 1px solid $borderDark;
-  background-color: $bgElevated;
+  border-top: 1px solid $line;
+  margin-top: 4rem;
+  background: $bgBase;
 }
 
 footer {
-  padding: 20px 0;
+  padding: 2.5rem 0;
+  font-family: $mono;
+  font-size: 0.75rem;
+  color: $textDim;
+  letter-spacing: 0.1em;
   text-align: center;
 }
 
 // Settled on moving the import of syntax highlighting to the bottom of the CSS
-// ... Otherwise it really bloats up the top of the CSS file and makes it difficult to find the start
 @import "highlights";
 @import "svg-icons";
