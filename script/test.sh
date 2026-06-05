@@ -14,6 +14,9 @@ ruby script/validate_resources.rb
 echo "==> Syntax-checking the Cloudflare Worker"
 node --check worker/src/index.js
 
+echo "==> Running worker unit tests"
+( cd worker && node --test )
+
 echo "==> Building the site"
 JEKYLL_ENV=production bundle exec jekyll build --trace
 

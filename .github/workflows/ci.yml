@@ -58,10 +58,10 @@ jobs:
             --allow-hash-href \
             --ignore-urls "/^\/dcs-resource-hub/"
 
-  # The Cloudflare Worker is real source that ships the CMS OAuth flow — make
-  # sure it at least parses on every change.
-  lint-worker:
-    name: Lint Cloudflare Worker
+  # The Cloudflare Worker ships the CMS OAuth flow — syntax-check it and run
+  # its unit tests on every change.
+  test-worker:
+    name: Test Cloudflare Worker
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -70,3 +70,6 @@ jobs:
           node-version: "22"
       - name: Syntax-check worker source
         run: node --check worker/src/index.js
+      - name: Run worker unit tests
+        run: node --test
+        working-directory: worker

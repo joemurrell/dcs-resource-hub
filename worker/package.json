@@ -1,0 +1,10 @@
+{
+  "name": "decap-proxy",
+  "version": "1.0.0",
+  "description": "Decap CMS GitHub OAuth proxy — Cloudflare Worker.",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "node --test"
+  }
+}
