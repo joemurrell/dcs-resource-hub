@@ -7,9 +7,14 @@
 // See ../../admin/README.md for the full setup, the OAuth app, and the gotchas.
 //
 // Required environment variables (decap-proxy → Settings → Variables and Secrets):
-//   GITHUB_OAUTH_ID      (Secret)    OAuth App Client ID
-//   GITHUB_OAUTH_SECRET  (Secret)    OAuth App Client secret
-//   GITHUB_REPO_PRIVATE  (Plaintext) "0" for a public repo
+//   GITHUB_OAUTH_ID       (Secret)    OAuth App Client ID
+//   GITHUB_OAUTH_SECRET   (Secret)    OAuth App Client secret
+//   GITHUB_REPO_PRIVATE   (Plaintext) "0" for a public repo
+//   ALLOWED_GITHUB_USERS  (Plaintext) Optional. Comma/space-separated GitHub
+//                                     logins allowed to log in (e.g. "joemurrell").
+//                                     When set, anyone else is rejected at login.
+//                                     When empty/unset, any GitHub user may log in
+//                                     (saving is still limited to repo collaborators).
 
 function randomHex(bytes) {
   const buf = new Uint8Array(bytes);
@@ -91,6 +96,35 @@ export default {
           message: data.error_description || data.error || "no access_token",
         });
       }
+
+      // Optional allowlist: when ALLOWED_GITHUB_USERS is set, only those logins
+      // may obtain a token. Saving is already restricted to repo collaborators
+      // by GitHub; this additionally stops anyone else from loading the editor.
+      const allowed = (env.ALLOWED_GITHUB_USERS || "")
+        .split(/[,\s]+/)
+        .map((s) => s.trim().toLowerCase())
+        .filter(Boolean);
+
+      if (allowed.length > 0) {
+        const userResp = await fetch("https://api.github.com/user", {
+          headers: {
+            Authorization: `Bearer ${data.access_token}`,
+            Accept: "application/vnd.github+json",
+            // GitHub's API rejects requests without a User-Agent.
+            "User-Agent": "decap-proxy",
+          },
+        });
+        const user = await userResp.json().catch(() => ({}));
+        const login = (user.login || "").toLowerCase();
+
+        // Fail closed: no resolvable login, or not on the list → reject.
+        if (!login || !allowed.includes(login)) {
+          return callbackPage("error", {
+            message: `${user.login ? "@" + user.login : "This account"} is not authorized to edit this site.`,
+          });
+        }
+      }
+
       return callbackPage("success", { token: data.access_token, provider: "github" });
     }
 

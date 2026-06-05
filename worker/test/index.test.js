@@ -90,6 +90,72 @@ test("/callback surfaces token-exchange errors instead of hanging", async (t) =>
   assert.match(body, /incorrect or expired/);
 });
 
+// Mocks both fetches in the callback path: the token exchange and the
+// subsequent GET /user used by the allowlist.
+function mockGithub(login) {
+  return async (url) => {
+    if (String(url).includes("access_token")) {
+      return new Response(JSON.stringify({ access_token: "tok_abc" }), {
+        headers: { "Content-Type": "application/json" },
+      });
+    }
+    if (String(url).includes("api.github.com/user")) {
+      return new Response(JSON.stringify({ login }), {
+        headers: { "Content-Type": "application/json" },
+      });
+    }
+    throw new Error("unexpected fetch: " + url);
+  };
+}
+
+test("/callback allows a user on the ALLOWED_GITHUB_USERS list", async (t) => {
+  const original = globalThis.fetch;
+  globalThis.fetch = mockGithub("joemurrell");
+  t.after(() => {
+    globalThis.fetch = original;
+  });
+
+  const res = await worker.fetch(
+    new Request("https://proxy.example/callback?provider=github&code=xyz"),
+    { ...ENV, ALLOWED_GITHUB_USERS: "joemurrell" },
+  );
+  const body = await res.text();
+  assert.match(body, /authorization:github:success/);
+  assert.match(body, /tok_abc/);
+});
+
+test("/callback rejects a user not on the allowlist", async (t) => {
+  const original = globalThis.fetch;
+  globalThis.fetch = mockGithub("someone-else");
+  t.after(() => {
+    globalThis.fetch = original;
+  });
+
+  const res = await worker.fetch(
+    new Request("https://proxy.example/callback?provider=github&code=xyz"),
+    { ...ENV, ALLOWED_GITHUB_USERS: "joemurrell" },
+  );
+  const body = await res.text();
+  assert.match(body, /authorization:github:error/);
+  assert.match(body, /not authorized/);
+  // The token must not be handed back to a rejected user.
+  assert.doesNotMatch(body, /tok_abc/);
+});
+
+test("the allowlist match is case-insensitive", async (t) => {
+  const original = globalThis.fetch;
+  globalThis.fetch = mockGithub("JoeMurrell");
+  t.after(() => {
+    globalThis.fetch = original;
+  });
+
+  const res = await worker.fetch(
+    new Request("https://proxy.example/callback?provider=github&code=xyz"),
+    { ...ENV, ALLOWED_GITHUB_USERS: "joemurrell, someoneelse" },
+  );
+  assert.match(await res.text(), /authorization:github:success/);
+});
+
 test("an unknown path returns the health-check response", async () => {
   const res = await call("https://proxy.example/");
   assert.match(await res.text(), /Hello/);

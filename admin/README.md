@@ -66,6 +66,27 @@ Set under **decap-proxy → Settings → Variables and Secrets**. Names are
 | `GITHUB_OAUTH_ID` | Secret | OAuth App **Client ID** (e.g. `Ov23li…`). |
 | `GITHUB_OAUTH_SECRET` | Secret | OAuth App **Client secret**. |
 | `GITHUB_REPO_PRIVATE` | Plaintext | `0` for a public repo (controls the requested scope). |
+| `ALLOWED_GITHUB_USERS` | Plaintext | Optional login allowlist, e.g. `joemurrell`. See below. |
+
+## Access control — who can log in and edit
+
+There are two layers:
+
+1. **Saving** is gated by **GitHub repo permissions**: Decap commits with the
+   logged-in user's own token, so only accounts with **write access** to
+   `joemurrell/dcs-resource-hub` can actually save. By default that's just the
+   owner — check **repo → Settings → Collaborators**.
+2. **Login** is gated by the Worker's optional **`ALLOWED_GITHUB_USERS`**
+   allowlist. Because the repo is public, *any* GitHub user could otherwise log
+   in and browse the editor (they still couldn't save). Set
+   `ALLOWED_GITHUB_USERS` to a comma/space-separated list of logins to reject
+   everyone else at login.
+
+   - Set in **decap-proxy → Settings → Variables and Secrets**, e.g.
+     `ALLOWED_GITHUB_USERS = joemurrell`, then **redeploy** the Worker.
+   - Matching is case-insensitive.
+   - If left empty/unset, the allowlist is **off** (any GitHub user may log in;
+     saving is still collaborator-only).
 
 ## The GitHub OAuth App
 
