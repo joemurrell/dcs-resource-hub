@@ -9,6 +9,8 @@
       <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
     <![endif]-->
 
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="stylesheet" type="text/css" href="{{ site.baseurl }}/style.css" />
     <link rel="alternate" type="application/rss+xml" title="{{ site.name }} - {{ site.description }}" href="{{ site.baseurl }}/feed.xml" />
 
@@ -16,18 +18,28 @@
   </head>
 
   <body>
+    <div class="status-strip">
+      <div class="status-strip-inner">
+        <span>NET <span class="ok">SECURE</span></span>
+        <span>SITE <span class="ok blink">OPERATIONAL</span></span>
+        <span>SYS <span class="amber">{{ site.version }}</span></span>
+        <span>DCS // RESOURCE HUB</span>
+      </div>
+    </div>
+
     <div class="wrapper-masthead">
       <div class="container">
         <header class="masthead clearfix">
-          <a href="{{ site.baseurl }}/" class="site-avatar"><img src="{{ site.avatar }}" /></a>
-
-          <div class="site-info">
-            <h1 class="site-name"><a href="{{ site.baseurl }}/">{{ site.name }}</a></h1>
-            <p class="site-description">{{ site.description }}</p>
-          </div>
+          <a href="{{ site.baseurl }}/" class="brand">
+            <span class="brand-mark">HUB</span>
+            <div class="site-info">
+              <h1 class="site-name">{{ site.name }}</h1>
+              <p class="site-description">{{ site.description }}</p>
+            </div>
+          </a>
 
           <nav>
-            <a href="{{ site.baseurl }}/">Resources</a>
+            <a href="{{ site.baseurl }}/" class="active">Resources</a>
             <a href="{{ site.baseurl }}/about">About</a>
           </nav>
         </header>
@@ -41,6 +53,7 @@
     <div class="wrapper-footer">
       <div class="container">
         <footer class="footer">
+          <p>DCS // RESOURCE HUB — CURATED TOOLS, GUIDES &amp; NEWS</p>
           {% include svg-icons.html %}
         </footer>
       </div>

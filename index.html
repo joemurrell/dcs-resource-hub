@@ -3,25 +3,21 @@ layout: default
 title: DCS Resource Hub
 ---
 
-<table>
-  <thead>
-    <tr>
-      <th>Resource</th>
-      <th>Description</th>
-      <th>Tags</th>
-    </tr>
-  </thead>
-  <tbody>
-    {% for item in site.data.resources.items %}
-      <tr>
-        <td><a href="{{ item.url }}"><b>{{ item.title }}</b></a></td>
-        <td>{{ item.excerpt }}</td>
-        <td>
-          {% for tag in item.tags %}
-            <span>{{ tag }}</span>{% unless forloop.last %}, {% endunless %}
-          {% endfor %}
-        </td>
-      </tr>
-    {% endfor %}
-  </tbody>
-</table>
+<div class="resource-list">
+  <div class="list-header">// RESOURCE INDEX — {{ site.data.resources.items | size }} ENTRIES</div>
+
+  {% for item in site.data.resources.items %}
+    <div class="resource">
+      <div class="marker">{{ forloop.index | prepend: '000' | slice: -3, 3 }}</div>
+      <div class="body">
+        <div class="title"><a href="{{ item.url }}">{{ item.title }}</a></div>
+        <div class="desc">{{ item.excerpt }}</div>
+      </div>
+      <div class="meta">
+        {% for tag in item.tags %}
+          <span class="tag">{{ tag }}</span>
+        {% endfor %}
+      </div>
+    </div>
+  {% endfor %}
+</div>
