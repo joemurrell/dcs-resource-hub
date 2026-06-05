@@ -3,11 +3,33 @@ layout: default
 title: DCS Resource Hub
 ---
 
-<div class="resource-list">
-  <div class="list-header">// RESOURCE INDEX — {{ site.data.resources.items | size }} ENTRIES</div>
+{% comment %} Unique, sorted list of every tag used across the resources. {% endcomment %}
+{% capture tag_string %}{% for item in site.data.resources.items %}{% for tag in item.tags %}{{ tag }}~{% endfor %}{% endfor %}{% endcapture %}
+{% assign all_tags = tag_string | split: "~" | uniq | sort %}
+
+<div class="resource-controls">
+  <input
+    type="search"
+    id="resource-search"
+    class="search-box"
+    placeholder="SEARCH RESOURCES…"
+    autocomplete="off"
+    aria-label="Search resources">
+
+  {% if all_tags.size > 0 %}
+  <div class="tag-filter" id="tag-filter" role="group" aria-label="Filter by tag">
+    {% for tag in all_tags %}
+      <button type="button" class="tag-chip" data-tag="{{ tag | downcase }}" aria-pressed="false">{{ tag }}</button>
+    {% endfor %}
+  </div>
+  {% endif %}
+</div>
+
+<div class="resource-list" id="resource-list">
+  <div class="list-header" id="list-header">// RESOURCE INDEX — {{ site.data.resources.items | size }} ENTRIES</div>
 
   {% for item in site.data.resources.items %}
-    <div class="resource">
+    <div class="resource" data-tags="{% for tag in item.tags %}{{ tag | downcase }}{% unless forloop.last %}|{% endunless %}{% endfor %}">
       <div class="marker">{{ forloop.index | prepend: '000' | slice: -3, 3 }}</div>
       <div class="body">
         <div class="title"><a href="{{ item.url }}">{{ item.title }}</a></div>
@@ -20,4 +42,8 @@ title: DCS Resource Hub
       </div>
     </div>
   {% endfor %}
+
+  <div class="resource-empty" id="resource-empty" hidden>// NO MATCHING RESOURCES</div>
 </div>
+
+<script src="{{ site.baseurl }}/assets/js/resource-filter.js" defer></script>

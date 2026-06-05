@@ -254,6 +254,79 @@ nav {
 }
 
 //
+// Resource controls (search + tag filter)
+//
+
+.resource-controls {
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+  margin-bottom: 1.4rem;
+}
+
+.search-box {
+  width: 100%;
+  font-family: $mono;
+  font-size: 0.82rem;
+  letter-spacing: 0.12em;
+  color: $textBright;
+  background: $bgCard;
+  border: 1px solid $line;
+  padding: 0.7rem 0.9rem;
+  transition: border-color 0.15s, box-shadow 0.15s;
+
+  &::placeholder {
+    color: $textDim;
+    letter-spacing: 0.12em;
+  }
+
+  &:focus {
+    outline: none;
+    border-color: $lineStrong;
+    box-shadow: $shadowHud;
+  }
+
+  // Hide the native search "x"; the field is short enough to clear by hand.
+  &::-webkit-search-decoration,
+  &::-webkit-search-cancel-button { -webkit-appearance: none; }
+}
+
+.tag-filter {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+}
+
+.tag-chip {
+  font-family: $mono;
+  font-size: 0.62rem;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: $hudGreen;
+  background: transparent;
+  border: 1px solid $hudGreenDim;
+  padding: 0.25rem 0.6rem;
+  cursor: pointer;
+  transition: all 0.15s;
+
+  &:hover {
+    border-color: $lineStrong;
+    color: $hudGreenBright;
+  }
+
+  &.active {
+    color: $bgDeep;
+    background: $hudGreen;
+    border-color: $hudGreen;
+  }
+
+  &:focus-visible {
+    outline: none;
+    box-shadow: $shadowHud;
+  }
+}
+
+//
 // Resource list
 //
 
@@ -261,6 +334,19 @@ nav {
   display: flex;
   flex-direction: column;
   gap: 0.6rem;
+}
+
+// Keep `hidden` authoritative over the grid/flex display rules below.
+[hidden] { display: none !important; }
+
+.resource-empty {
+  font-family: $mono;
+  font-size: 0.78rem;
+  letter-spacing: 0.14em;
+  color: $hudAmber;
+  padding: 1.4rem 1.2rem;
+  border: 1px dashed $line;
+  text-align: center;
 }
 
 .list-header {
