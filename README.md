@@ -1,3 +1,34 @@
+# DCS Resource Hub
+
+A curated directory of Digital Combat Simulator tools, guides, and news,
+built with Jekyll and hosted on GitHub Pages. Links are edited through
+[Decap CMS](admin/README.md) (GitHub backend via a Cloudflare Worker OAuth
+proxy) and stored in [`_data/resources.yml`](_data/resources.yml).
+
+## Development & CI
+
+Local checks (run the same ones CI runs):
+
+```bash
+bundle install        # one-time, installs the pinned toolchain
+script/test.sh        # validate data, lint worker, build, proof HTML
+```
+
+Individual checks:
+
+- `ruby script/validate_resources.rb` — verifies every entry in
+  `_data/resources.yml` has a title, a well-formed/unique URL, and only tags
+  that exist in the CMS config (`admin/config.yml`). This is what stops
+  malformed CMS edits from reaching the site.
+- `node --check worker/src/index.js` — syntax-checks the Cloudflare Worker.
+- `bundle exec jekyll build` — builds the site (set a UTF-8 locale, e.g.
+  `LANG=C.UTF-8`, so the SCSS comments parse).
+
+CI runs on every push and pull request via
+[`.github/workflows/ci.yml`](.github/workflows/ci.yml).
+
+---
+
 > March, 2016: If you're on an old version of Jekyll Now and run into a) build warnings or b) syntax highlighting issues caused by [Jekyll 3 and GitHub Pages updates](https://github.com/blog/2100-github-pages-now-faster-and-simpler-with-jekyll-3-0), just :sparkles:[update your _config.yml](https://github.com/barryclark/jekyll-now/pull/445/files):sparkles: and you'll be set!
 
 # Jekyll Now

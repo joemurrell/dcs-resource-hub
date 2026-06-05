@@ -1,0 +1,72 @@
+name: CI
+
+on:
+  push:
+    branches: ["main"]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+# A newer push to the same branch/PR cancels the older, still-running build.
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  # Fast gate: make sure the CMS-editable data file is well-formed before we
+  # spend time building the site. Catches blank titles, bad URLs, duplicate
+  # links, and tags that aren't in the CMS's allowed list.
+  validate-data:
+    name: Validate resources data
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: "3.3"
+      - name: Validate _data/resources.yml
+        run: ruby script/validate_resources.rb
+
+  # Build the site exactly the way GitHub Pages does, then proof the generated
+  # HTML for broken internal links, missing images, and malformed markup.
+  build:
+    name: Build site & proof HTML
+    runs-on: ubuntu-latest
+    # Force a UTF-8 locale: the SCSS converter aborts on the em-dashes in our
+    # stylesheet comments under an ASCII locale.
+    env:
+      LANG: C.UTF-8
+      LC_ALL: C.UTF-8
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: "3.3"
+          bundler-cache: true
+      - name: Build with Jekyll
+        run: bundle exec jekyll build --trace
+        env:
+          JEKYLL_ENV: production
+      - name: Proof generated HTML
+        # External links are checked separately (they're flaky in CI); here we
+        # only fail on internal-link, image, and structural problems.
+        run: |
+          bundle exec htmlproofer ./_site \
+            --disable-external \
+            --allow-hash-href \
+            --ignore-urls "/^\/dcs-resource-hub/"
+
+  # The Cloudflare Worker is real source that ships the CMS OAuth flow — make
+  # sure it at least parses on every change.
+  lint-worker:
+    name: Lint Cloudflare Worker
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - name: Syntax-check worker source
+        run: node --check worker/src/index.js
