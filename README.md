@@ -23,9 +23,13 @@ Individual checks:
 - `node --check worker/src/index.js` — syntax-checks the Cloudflare Worker.
 - `bundle exec jekyll build` — builds the site (set a UTF-8 locale, e.g.
   `LANG=C.UTF-8`, so the SCSS comments parse).
+- `ruby script/check_links.rb` — pings every resource URL and flags dead
+  links. Slow/flaky, so it runs on a weekly schedule rather than per-PR.
 
 CI runs on every push and pull request via
-[`.github/workflows/ci.yml`](.github/workflows/ci.yml).
+[`.github/workflows/ci.yml`](.github/workflows/ci.yml). A separate
+[`link-check.yml`](.github/workflows/link-check.yml) workflow runs the link
+check weekly (and on demand via *Run workflow*).
 
 ---
 

@@ -1,0 +1,24 @@
+name: Link health
+
+# External link checking is slow and occasionally flaky, so it runs on a
+# schedule (and on demand) rather than blocking every PR. A red run here means
+# a resource URL has gone dead and needs attention in _data/resources.yml.
+on:
+  schedule:
+    - cron: "0 7 * * 1" # Mondays, 07:00 UTC
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  check-links:
+    name: Check resource URLs
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: "3.3"
+      - name: Check links in _data/resources.yml
+        run: ruby script/check_links.rb
