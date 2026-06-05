@@ -4,11 +4,17 @@ items:
     excerpt: An excellent tool for calculating your timeline intervals.
     tags:
       - Air-to-Air
-  - title: asdf
-    url: https://github.com/settings/applications/3646128
-    excerpt: asdf
+  - title: The CAS Bible
+    url: https://irp.fas.org/doddir/dod/jp3_09_3.pdf
+    excerpt: >
+      This publication provides fundamental principles and guidance to plan,
+      coordinate, and
+
+      execute close air support during joint operations.
     tags:
-      - Air-to-Air
+      - Air-to-Ground
+    date: 2026-06-04
+    difficulty: Intermediate
   - url: https://spanner-uk.github.io/Tac-Turn-Illustrator/
     title: Tac Turn Illustrator
     date: 2026-06-04
