@@ -25,15 +25,15 @@ rescue StandardError => e
   abort "FATAL: could not parse #{path}: #{e.message}"
 end
 
-# The set of tags an editor is allowed to pick is defined once, in the Decap
-# CMS config. Read it back here so the two never drift apart instead of
-# hard-coding a second copy of the list.
-def allowed_tags(config)
+# The options for a `select` field are defined once, in the Decap CMS config.
+# Read them back here so the validator and the CMS never drift apart instead of
+# hard-coding a second copy of each list.
+def select_options(config, field_name)
   found = nil
   walk = lambda do |node|
     case node
     when Hash
-      if node["name"] == "tags" && node["widget"] == "select" && node["options"]
+      if node["name"] == field_name && node["widget"] == "select" && node["options"]
         found = node["options"]
       end
       node.each_value { |v| walk.call(v) }
@@ -49,7 +49,8 @@ abort "FATAL: #{RESOURCES} not found" unless File.exist?(RESOURCES)
 
 data   = load_yaml(RESOURCES)
 config = File.exist?(CMS_CONFIG) ? load_yaml(CMS_CONFIG) : {}
-tags_allowed = allowed_tags(config).to_set
+tags_allowed       = select_options(config, "tags").to_set
+difficulty_allowed = select_options(config, "difficulty").to_set
 
 unless data.is_a?(Hash) && data["items"].is_a?(Array)
   abort "FATAL: #{RESOURCES} must contain a top-level `items:` list"
@@ -130,6 +131,13 @@ items.each_with_index do |item, i|
         end
       end
     errors << "#{label}: `date` is not a valid date: #{date.inspect}" unless valid_date
+  end
+
+  # Difficulty — optional, but must be one of the CMS's allowed options.
+  difficulty = item["difficulty"]
+  if !difficulty.nil? && difficulty_allowed.any? && !difficulty_allowed.include?(difficulty)
+    errors << "#{label}: unknown difficulty #{difficulty.inspect} " \
+              "(allowed: #{difficulty_allowed.to_a.join(', ')})"
   end
 end
 

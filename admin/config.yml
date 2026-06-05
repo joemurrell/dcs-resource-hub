@@ -27,6 +27,12 @@ collections:
               - { label: "URL", name: "url", widget: "string" }
               - { label: "Excerpt", name: "excerpt", widget: "text", required: false }
               - { label: "Date added", name: "date", widget: "datetime", required: false, date_format: "YYYY-MM-DD", time_format: false, format: "YYYY-MM-DD" }
+              - { label: "Author / source", name: "author", widget: "string", required: false }
+              - label: "Difficulty"
+                name: "difficulty"
+                widget: "select"
+                required: false
+                options: ["Beginner", "Intermediate", "Advanced"]
               - label: "Tags"
                 name: "tags"
                 widget: "select"

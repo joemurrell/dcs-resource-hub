@@ -487,6 +487,30 @@ nav {
   white-space: nowrap;
 }
 
+// Source / author line under a resource title.
+.resource .source {
+  font-family: $mono;
+  font-size: 0.66rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: $textDim;
+  margin-top: 0.4rem;
+}
+
+// Difficulty badge, colour-coded per level.
+.badge-diff {
+  padding: 0.15rem 0.5rem;
+  border: 1px solid currentColor;
+  letter-spacing: 0.12em;
+  font-size: 0.62rem;
+  text-transform: uppercase;
+  white-space: nowrap;
+
+  &--beginner { color: $hudGreen; }
+  &--intermediate { color: $hudCyan; }
+  &--advanced { color: $hudAmber; }
+}
+
 //
 // Pages / posts
 //
