@@ -7,4 +7,5 @@ _site
 Gemfile.lock
 node_modules
 vendor
-package.json
+# Ignore a root-level package.json only; worker/ keeps its own (tracked) one.
+/package.json
