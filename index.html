@@ -58,7 +58,7 @@ and entries added within the last 30 days get a NEW badge. {% endcomment %}
           <div class="body">
             <div class="title"><a href="{{ item.url }}">{{ item.title }}</a></div>
             <div class="desc">{{ item.excerpt }}</div>
-            {% if item.author %}<div class="source">SRC // {{ item.author }}</div>{% endif %}
+            {% if item.author %}<div class="source">SRC // {{ item.author | escape }}</div>{% endif %}
           </div>
           <div class="meta">
             {% if is_new %}<span class="badge-new" title="Added {{ item.date | date: '%Y-%m-%d' }}">NEW</span>{% endif %}
