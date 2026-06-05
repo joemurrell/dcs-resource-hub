@@ -294,7 +294,15 @@ nav {
 .tag-filter {
   display: flex;
   flex-wrap: wrap;
-  gap: 0.4rem;
+  gap: 0.5rem 0.9rem; // row gap, then wider column gap between tag groups
+}
+
+// A parent chip kept together with its child chips.
+.tag-group {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.3rem;
 }
 
 .tag-chip {
@@ -324,6 +332,15 @@ nav {
     outline: none;
     box-shadow: $shadowHud;
   }
+}
+
+.tag-chip--parent { font-weight: 700; }
+
+.tag-chip--child {
+  font-size: 0.58rem;
+  border-style: dashed;
+
+  &::before { content: "› "; opacity: 0.6; }
 }
 
 //

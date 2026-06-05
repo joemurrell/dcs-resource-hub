@@ -3,9 +3,15 @@ layout: default
 title: DCS Resource Hub
 ---
 
-{% comment %} Unique, sorted list of every tag used across the resources. {% endcomment %}
+{% comment %} Tags use a "Parent / Child" naming convention (e.g.
+"Air-to-Ground / CAS"). Build the unique sorted tag list, then derive the unique
+parent tags (the segment before " / ") so the filter can show a hierarchy.
+Note the spaces around the slash — that's what distinguishes a hierarchy from a
+name like "F/A-18C". {% endcomment %}
 {% capture tag_string %}{% for item in site.data.resources.items %}{% for tag in item.tags %}{{ tag }}~{% endfor %}{% endfor %}{% endcapture %}
 {% assign all_tags = tag_string | split: "~" | uniq | sort %}
+{% capture parent_string %}{% for tag in all_tags %}{{ tag | split: " / " | first }}~{% endfor %}{% endcapture %}
+{% assign parent_list = parent_string | split: "~" | uniq | sort %}
 
 <div class="resource-controls">
   <input
@@ -18,18 +24,26 @@ title: DCS Resource Hub
 
   {% if all_tags.size > 0 %}
   <div class="tag-filter" id="tag-filter" role="group" aria-label="Filter by tag">
-    {% for tag in all_tags %}
-      <button type="button" class="tag-chip" data-tag="{{ tag | downcase }}" aria-pressed="false">{{ tag }}</button>
+    {% for parent in parent_list %}
+      <div class="tag-group">
+        <button type="button" class="tag-chip tag-chip--parent" data-tag="{{ parent | downcase }}" aria-pressed="false">{{ parent }}</button>
+        {% assign prefix = parent | append: " / " %}
+        {% for tag in all_tags %}
+          {% if tag contains prefix %}
+            <button type="button" class="tag-chip tag-chip--child" data-tag="{{ tag | downcase }}" aria-pressed="false">{{ tag | split: " / " | last }}</button>
+          {% endif %}
+        {% endfor %}
+      </div>
     {% endfor %}
   </div>
   {% endif %}
 </div>
 
-{% comment %} Group resources by their primary (first) tag, then order each
-group newest-first by "date" (undated entries keep their order, after the
-dated ones). A continuous counter keeps the markers numbered across groups,
+{% comment %} Group resources by the PARENT of their primary (first) tag, then
+order each group newest-first by "date" (undated entries keep their order, after
+the dated ones). A continuous counter keeps the markers numbered across groups,
 and entries added within the last 30 days get a NEW badge. {% endcomment %}
-{% assign grouped = site.data.resources.items | group_by_exp: "item", "item.tags[0]" | sort: "name" %}
+{% assign grouped = site.data.resources.items | group_by_exp: "item", "item.tags[0] | split: ' / ' | first" | sort: "name" %}
 {% assign now_seconds = site.time | date: "%s" | plus: 0 %}
 
 <div class="resource-list" id="resource-list">
@@ -53,7 +67,10 @@ and entries added within the last 30 days get a NEW badge. {% endcomment %}
           {% assign age_days = now_seconds | minus: item_seconds | divided_by: 86400 %}
           {% if age_days >= 0 and age_days <= 30 %}{% assign is_new = true %}{% endif %}
         {% endif %}
-        <div class="resource" data-tags="{% for tag in item.tags %}{{ tag | downcase }}{% unless forloop.last %}|{% endunless %}{% endfor %}">
+        {% comment %} data-tags carries each tag AND its parent (lowercased), so
+        selecting a parent chip also matches resources tagged only with a child. {% endcomment %}
+        {% capture data_tags %}{% for tag in item.tags %}{% assign tlow = tag | downcase %}{% assign tparent = tag | split: " / " | first | downcase %}{{ tlow }}|{% unless tparent == tlow %}{{ tparent }}|{% endunless %}{% endfor %}{% endcapture %}
+        <div class="resource" data-tags="{{ data_tags | split: '|' | uniq | join: '|' }}">
           <div class="marker">{{ counter | prepend: '000' | slice: -3, 3 }}</div>
           <div class="body">
             <div class="title"><a href="{{ item.url }}">{{ item.title }}</a></div>
@@ -64,7 +81,7 @@ and entries added within the last 30 days get a NEW badge. {% endcomment %}
             {% if is_new %}<span class="badge-new" title="Added {{ item.date | date: '%Y-%m-%d' }}">NEW</span>{% endif %}
             {% if item.difficulty %}<span class="badge-diff badge-diff--{{ item.difficulty | downcase }}">{{ item.difficulty }}</span>{% endif %}
             {% for tag in item.tags %}
-              <span class="tag">{{ tag }}</span>
+              <span class="tag" title="{{ tag }}">{{ tag | split: " / " | last }}</span>
             {% endfor %}
           </div>
         </div>

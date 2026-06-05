@@ -37,4 +37,20 @@ collections:
                 name: "tags"
                 widget: "select"
                 multiple: true
-                options: ["Air-to-Ground", "Air-to-Air", "Tools", "News", "Utilities", "F-16C", "F/A-18C"]
+                # Hierarchy via a "Parent / Child" naming convention (note the
+                # spaces around the slash, so it doesn't clash with "F/A-18C").
+                # The site groups by the parent and shows children as nested
+                # filter chips. Add sub-tags here as needed.
+                options:
+                  - "Air-to-Ground"
+                  - "Air-to-Ground / CAS"
+                  - "Air-to-Ground / SEAD"
+                  - "Air-to-Ground / Strike"
+                  - "Air-to-Air"
+                  - "Air-to-Air / BVR"
+                  - "Air-to-Air / BFM"
+                  - "Tools"
+                  - "News"
+                  - "Utilities"
+                  - "F-16C"
+                  - "F/A-18C"

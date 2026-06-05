@@ -22,6 +22,8 @@ file is a quick at-a-glance index.
       _(#17)_
 - [x] **Social previews** — Open Graph / Twitter card tags (image is
       config-driven via `og_image`). _(#19)_
+- [x] **Nested / hierarchical tags** — "Parent / Child" tag convention with
+      parent grouping and nested filter chips. _(#29)_
 
 ## Ideas / backlog
 

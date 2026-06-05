@@ -22,11 +22,15 @@
   resources.forEach(function (el) {
     var title = el.querySelector(".title");
     var desc = el.querySelector(".desc");
-    el._text = (
-      (title ? title.textContent : "") + " " + (desc ? desc.textContent : "")
-    ).toLowerCase();
     var tags = el.getAttribute("data-tags");
     el._tags = tags ? tags.split("|").filter(Boolean) : [];
+    // Include tags (parents + children) in the search text so typing a label
+    // like "cas" or "air-to-ground" matches too.
+    el._text = (
+      (title ? title.textContent : "") + " " +
+      (desc ? desc.textContent : "") + " " +
+      el._tags.join(" ")
+    ).toLowerCase();
   });
 
   function apply() {
