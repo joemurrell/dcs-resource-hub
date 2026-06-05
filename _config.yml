@@ -8,6 +8,13 @@ name: DCS Resource Hub
 # Short bio or description (displayed in the header)
 description: Curated DCS tools, guides, and news links.
 
+# Social sharing (Open Graph / Twitter cards). Optional:
+#   og_image: a 1200x630 image path (e.g. /assets/images/og-card.png) to make
+#             shares render a large image card instead of a small summary.
+#   twitter_username: handle (without @) shown as the card's site attribution.
+# og_image:
+# twitter_username:
+
 # URL of your avatar or profile pic (you could use your GitHub profile pic)
 avatar: https://raw.githubusercontent.com/barryclark/jekyll-now/master/images/jekyll-logo.png
 
