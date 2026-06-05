@@ -9,3 +9,10 @@ items:
     excerpt: asdf
     tags:
       - Air-to-Air
+  - url: https://spanner-uk.github.io/Tac-Turn-Illustrator/
+    title: Tac Turn Illustrator
+    date: 2026-06-04
+    author: https://github.com/spanner-uk
+    difficulty: Beginner
+    tags:
+      - Tools
