@@ -349,6 +349,44 @@ nav {
   text-align: center;
 }
 
+//
+// Category groups
+//
+
+.resource-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+
+  & + & { margin-top: 1.2rem; }
+}
+
+.group-header {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  margin: 0.4rem 0 0.2rem;
+  font-family: $mono;
+  font-size: 0.78rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  color: $hudAmber;
+
+  &::before {
+    content: '//';
+    color: $hudGreenDim;
+  }
+}
+
+.group-count {
+  font-size: 0.62rem;
+  letter-spacing: 0.1em;
+  color: $textDim;
+  border: 1px solid $line;
+  padding: 0.05rem 0.4rem;
+}
+
 .list-header {
   font-family: $mono;
   font-size: 0.72rem;

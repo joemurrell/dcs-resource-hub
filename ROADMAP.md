@@ -1,37 +1,31 @@
 # Roadmap
 
-Backlog of features and enhancements for the DCS Resource Hub. (GitHub Issues
-is disabled on this repo, so the backlog lives here.)
+Backlog of features and enhancements for the DCS Resource Hub. Tracked in
+[GitHub Issues](https://github.com/joemurrell/dcs-resource-hub/issues); this
+file is a quick at-a-glance index.
 
-## In progress / done
+## Done
 
 - [x] **CI pipeline** — data validation, Jekyll build + HTMLProofer, worker
-      lint. _(PR #10, merged)_
+      lint. _(PR #10)_
 - [x] **Client-side search + tag filtering** — search box and clickable tag
-      chips over the resource index; progressive enhancement, live result
-      count, empty state. _(this PR)_
+      chips over the resource index. _(#12, PR #11)_
+
+## In progress
+
+- [ ] **Group resources by category** — render entries under category headings
+      instead of one flat list, composing with search/tag filtering. _(#13)_
 
 ## Next up
 
-- [ ] **Group resources by category** — render entries under tag/category
-      headings instead of one flat list. Needs to compose with the search/tag
-      filtering. A resource with multiple tags either appears under each or
-      under a single primary category (decide which).
-- [ ] **Content cleanup** — `_data/resources.yml` still has a placeholder
-      `asdf` entry and a mis-linked "BVR Timeline Generator"; `about.md` and
-      `_posts/2014-3-3-Hello-World.md` are stock Jekyll Now boilerplate.
-
-## Later
-
-- [ ] **External link-health check** — scheduled CI job (e.g. weekly cron)
-      that pings every resource URL and flags 404s. Dead links are the main
-      rot risk for a link directory.
+- [ ] **Content cleanup** — placeholder data and stock Jekyll Now boilerplate
+      pages. _(#14)_
+- [ ] **External link-health check** — scheduled CI job that flags dead resource
+      URLs. _(#15)_
 - [ ] **"Date added" + sorting** — optional date per resource; newest-first
-      sort and/or a "recently added" badge.
-- [ ] **Richer per-resource metadata** — author/source, difficulty level, or
-      DCS module icons.
-- [ ] **Worker unit tests** — the Cloudflare OAuth proxy has real logic worth
-      testing (would need a small Node/Vitest harness; note `package.json` is
-      currently gitignored).
-- [ ] **Social previews** — Open Graph / Twitter card images and a proper
-      About page.
+      sort and/or a "recently added" badge. _(#16)_
+- [ ] **Richer per-resource metadata** — author/source, difficulty, module
+      icons. _(#17)_
+- [ ] **Worker unit tests** — cover the Cloudflare OAuth proxy logic. _(#18)_
+- [ ] **Social previews + About page** — Open Graph cards and a real About
+      page. _(#19)_
