@@ -475,6 +475,18 @@ nav {
   white-space: nowrap;
 }
 
+// "NEW" badge for recently added resources (see index.html date logic).
+.badge-new {
+  padding: 0.15rem 0.5rem;
+  background: $hudAmber;
+  color: $bgDeep;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  font-size: 0.62rem;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
 //
 // Pages / posts
 //

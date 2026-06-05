@@ -10,6 +10,7 @@
 require "yaml"
 require "uri"
 require "set"
+require "date"
 
 ROOT          = File.expand_path("..", __dir__)
 RESOURCES     = File.join(ROOT, "_data", "resources.yml")
@@ -18,7 +19,8 @@ CMS_CONFIG    = File.join(ROOT, "admin", "config.yml")
 errors = []
 
 def load_yaml(path)
-  YAML.safe_load_file(path)
+  # Permit Date/Time so an unquoted `date:` (which YAML parses to a Date) loads.
+  YAML.safe_load_file(path, permitted_classes: [Date, Time])
 rescue StandardError => e
   abort "FATAL: could not parse #{path}: #{e.message}"
 end
@@ -110,6 +112,24 @@ items.each_with_index do |item, i|
                   "(allowed: #{tags_allowed.to_a.join(', ')})"
       end
     end
+  end
+
+  # Date — optional. YAML may parse it to a Date/Time already; a quoted string
+  # must still be parseable so the index can sort and badge by it.
+  date = item["date"]
+  unless date.nil?
+    valid_date =
+      case date
+      when Date, Time then true
+      else
+        begin
+          DateTime.parse(date.to_s)
+          true
+        rescue ArgumentError, TypeError
+          false
+        end
+      end
+    errors << "#{label}: `date` is not a valid date: #{date.inspect}" unless valid_date
   end
 end
 

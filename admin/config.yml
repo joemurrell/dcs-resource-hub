@@ -26,6 +26,7 @@ collections:
               - { label: "Title", name: "title", widget: "string" }
               - { label: "URL", name: "url", widget: "string" }
               - { label: "Excerpt", name: "excerpt", widget: "text", required: false }
+              - { label: "Date added", name: "date", widget: "datetime", required: false, date_format: "YYYY-MM-DD", time_format: false, format: "YYYY-MM-DD" }
               - label: "Tags"
                 name: "tags"
                 widget: "select"
