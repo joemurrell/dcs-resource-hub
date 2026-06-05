@@ -25,22 +25,36 @@ title: DCS Resource Hub
   {% endif %}
 </div>
 
+{% comment %} Group resources by their primary (first) tag. A continuous
+counter keeps the markers numbered across groups. {% endcomment %}
+{% assign grouped = site.data.resources.items | group_by_exp: "item", "item.tags[0]" | sort: "name" %}
+
 <div class="resource-list" id="resource-list">
   <div class="list-header" id="list-header">// RESOURCE INDEX — {{ site.data.resources.items | size }} ENTRIES</div>
 
-  {% for item in site.data.resources.items %}
-    <div class="resource" data-tags="{% for tag in item.tags %}{{ tag | downcase }}{% unless forloop.last %}|{% endunless %}{% endfor %}">
-      <div class="marker">{{ forloop.index | prepend: '000' | slice: -3, 3 }}</div>
-      <div class="body">
-        <div class="title"><a href="{{ item.url }}">{{ item.title }}</a></div>
-        <div class="desc">{{ item.excerpt }}</div>
-      </div>
-      <div class="meta">
-        {% for tag in item.tags %}
-          <span class="tag">{{ tag }}</span>
-        {% endfor %}
-      </div>
-    </div>
+  {% assign counter = 0 %}
+  {% for group in grouped %}
+    {% assign group_name = group.name %}
+    {% if group_name == "" or group_name == nil %}{% assign group_name = "Uncategorised" %}{% endif %}
+    <section class="resource-group" data-group="{{ group_name | downcase }}">
+      <h2 class="group-header">{{ group_name }} <span class="group-count">{{ group.items | size }}</span></h2>
+
+      {% for item in group.items %}
+        {% assign counter = counter | plus: 1 %}
+        <div class="resource" data-tags="{% for tag in item.tags %}{{ tag | downcase }}{% unless forloop.last %}|{% endunless %}{% endfor %}">
+          <div class="marker">{{ counter | prepend: '000' | slice: -3, 3 }}</div>
+          <div class="body">
+            <div class="title"><a href="{{ item.url }}">{{ item.title }}</a></div>
+            <div class="desc">{{ item.excerpt }}</div>
+          </div>
+          <div class="meta">
+            {% for tag in item.tags %}
+              <span class="tag">{{ tag }}</span>
+            {% endfor %}
+          </div>
+        </div>
+      {% endfor %}
+    </section>
   {% endfor %}
 
   <div class="resource-empty" id="resource-empty" hidden>// NO MATCHING RESOURCES</div>

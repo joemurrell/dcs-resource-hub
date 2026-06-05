@@ -14,6 +14,7 @@
   if (!list) return;
 
   var resources = Array.prototype.slice.call(list.querySelectorAll(".resource"));
+  var groups = Array.prototype.slice.call(list.querySelectorAll(".resource-group"));
   var total = resources.length;
   var activeTags = [];
 
@@ -44,6 +45,11 @@
       var show = matchesText && matchesTags;
       el.hidden = !show;
       if (show) visible++;
+    });
+
+    // Collapse a category heading when none of its resources are visible.
+    groups.forEach(function (g) {
+      g.hidden = !g.querySelector(".resource:not([hidden])");
     });
 
     if (empty) empty.hidden = visible !== 0;
