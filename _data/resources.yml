@@ -1,5 +1,6 @@
 items:
-  - title: "BVR Timeline Generator"
-    url: "https://github.com/strapi/LaunchPad"
-    excerpt: "An excellent tool for calculating your timeline intervals."
-    tags: [Tools, News, Air-to-Ground]
+  - title: BVR Timeline Generator
+    url: https://github.com/strapi/LaunchPad
+    excerpt: An excellent tool for calculating your timeline intervals.
+    tags:
+      - Air-to-Air
