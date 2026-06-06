@@ -16,7 +16,9 @@
 /**************/
 
 html {
-  font-size: 100%;
+  // Base size for the whole site. Everything in the resource index is sized in
+  // rem, so this scales the UI up proportionally.
+  font-size: 112.5%; // ~18px
 }
 
 body {
@@ -76,15 +78,15 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 h1 {
-  font-size: 30px;
+  font-size: 1.875rem;
   a { color: inherit; }
 }
 
-h2 { font-size: 24px; }
-h3 { font-size: 20px; }
+h2 { font-size: 1.5rem; }
+h3 { font-size: 1.25rem; }
 
 h4 {
-  font-size: 18px;
+  font-size: 1.125rem;
   color: $textDim;
 }
 
@@ -341,6 +343,32 @@ nav {
   border-style: dashed;
 
   &::before { content: "› "; opacity: 0.6; }
+}
+
+// Difficulty chips borrow the badge colour (set via .badge-diff--<level>) for
+// their text and border, so the level reads at a glance.
+.tag-chip--diff { border-color: currentColor; }
+
+// When selected, fill with the level colour rather than the generic active
+// green, so the difficulty still reads at a glance. The extra class bumps
+// specificity above the shared .tag-chip.active rule.
+.tag-chip--diff.active {
+  color: $bgDeep;
+
+  &.badge-diff--beginner { background: $hudGreen; border-color: $hudGreen; }
+  &.badge-diff--intermediate { background: $hudCyan; border-color: $hudCyan; }
+  &.badge-diff--advanced { background: $hudAmber; border-color: $hudAmber; }
+}
+
+// Small caption ahead of a filter row ("TAGS", "DIFFICULTY").
+.filter-label {
+  align-self: center;
+  font-family: $mono;
+  font-size: 0.58rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: $textDim;
+  margin-right: 0.1rem;
 }
 
 //

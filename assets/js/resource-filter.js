@@ -8,6 +8,7 @@
 
   var search = document.getElementById("resource-search");
   var tagFilter = document.getElementById("tag-filter");
+  var diffFilter = document.getElementById("difficulty-filter");
   var list = document.getElementById("resource-list");
   var header = document.getElementById("list-header");
   var empty = document.getElementById("resource-empty");
@@ -17,19 +18,21 @@
   var groups = Array.prototype.slice.call(list.querySelectorAll(".resource-group"));
   var total = resources.length;
   var activeTags = [];
+  var activeDiffs = [];
 
-  // Precompute the searchable text and tag list for each resource once.
+  // Precompute the searchable text, tag list and difficulty for each resource.
   resources.forEach(function (el) {
     var title = el.querySelector(".title");
     var desc = el.querySelector(".desc");
     var tags = el.getAttribute("data-tags");
     el._tags = tags ? tags.split("|").filter(Boolean) : [];
-    // Include tags (parents + children) in the search text so typing a label
-    // like "cas" or "air-to-ground" matches too.
+    el._diff = (el.getAttribute("data-difficulty") || "").toLowerCase();
+    // Include tags (parents + children) and difficulty in the search text so
+    // typing a label like "cas", "air-to-ground" or "beginner" matches too.
     el._text = (
       (title ? title.textContent : "") + " " +
       (desc ? desc.textContent : "") + " " +
-      el._tags.join(" ")
+      el._tags.join(" ") + " " + el._diff
     ).toLowerCase();
   });
 
@@ -39,14 +42,19 @@
 
     resources.forEach(function (el) {
       var matchesText = !q || el._text.indexOf(q) !== -1;
-      // A resource matches the tag filter if no tags are selected, or it
-      // carries at least one of the selected tags (OR semantics).
+      // OR within the tag facet: match when no tags are selected, or the
+      // resource carries at least one selected tag.
       var matchesTags =
         activeTags.length === 0 ||
         activeTags.some(function (t) {
           return el._tags.indexOf(t) !== -1;
         });
-      var show = matchesText && matchesTags;
+      // The difficulty facet is ANDed with tags: a resource must also match a
+      // selected difficulty (OR within the difficulty facet).
+      var matchesDiff =
+        activeDiffs.length === 0 ||
+        activeDiffs.indexOf(el._diff) !== -1;
+      var show = matchesText && matchesTags && matchesDiff;
       el.hidden = !show;
       if (show) visible++;
     });
@@ -69,22 +77,28 @@
     search.addEventListener("input", apply);
   }
 
-  if (tagFilter) {
-    tagFilter.addEventListener("click", function (e) {
+  // Toggle a chip's active state on click and re-apply. Shared by the tag and
+  // difficulty filters; `attr` is the data attribute holding the chip's value.
+  function bindChips(container, activeArr, attr) {
+    if (!container) return;
+    container.addEventListener("click", function (e) {
       var btn = e.target.closest(".tag-chip");
       if (!btn) return;
-      var tag = btn.getAttribute("data-tag");
-      var i = activeTags.indexOf(tag);
+      var val = btn.getAttribute(attr);
+      var i = activeArr.indexOf(val);
       if (i === -1) {
-        activeTags.push(tag);
+        activeArr.push(val);
         btn.classList.add("active");
         btn.setAttribute("aria-pressed", "true");
       } else {
-        activeTags.splice(i, 1);
+        activeArr.splice(i, 1);
         btn.classList.remove("active");
         btn.setAttribute("aria-pressed", "false");
       }
       apply();
     });
   }
+
+  bindChips(tagFilter, activeTags, "data-tag");
+  bindChips(diffFilter, activeDiffs, "data-difficulty");
 })();
