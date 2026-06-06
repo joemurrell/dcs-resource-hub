@@ -349,6 +349,17 @@ nav {
 // their text and border, so the level reads at a glance.
 .tag-chip--diff { border-color: currentColor; }
 
+// When selected, fill with the level colour rather than the generic active
+// green, so the difficulty still reads at a glance. The extra class bumps
+// specificity above the shared .tag-chip.active rule.
+.tag-chip--diff.active {
+  color: $bgDeep;
+
+  &.badge-diff--beginner { background: $hudGreen; border-color: $hudGreen; }
+  &.badge-diff--intermediate { background: $hudCyan; border-color: $hudCyan; }
+  &.badge-diff--advanced { background: $hudAmber; border-color: $hudAmber; }
+}
+
 // Small caption ahead of a filter row ("TAGS", "DIFFICULTY").
 .filter-label {
   align-self: center;
