@@ -24,6 +24,7 @@ name like "F/A-18C". {% endcomment %}
 
   {% if all_tags.size > 0 %}
   <div class="tag-filter" id="tag-filter" role="group" aria-label="Filter by tag">
+    <span class="filter-label">TAGS</span>
     {% for parent in parent_list %}
       <div class="tag-group">
         <button type="button" class="tag-chip tag-chip--parent" data-tag="{{ parent | downcase }}" aria-pressed="false">{{ parent }}</button>
@@ -34,6 +35,22 @@ name like "F/A-18C". {% endcomment %}
           {% endif %}
         {% endfor %}
       </div>
+    {% endfor %}
+  </div>
+  {% endif %}
+
+  {% comment %} Difficulty filter — a separate facet from tags, rendered in the
+  canonical Beginner → Advanced order for whichever levels are actually used. {% endcomment %}
+  {% capture diff_string %}{% for item in site.data.resources.items %}{% if item.difficulty %}{{ item.difficulty }}~{% endif %}{% endfor %}{% endcapture %}
+  {% assign diff_present = diff_string | split: "~" | uniq %}
+  {% assign diff_order = "Beginner,Intermediate,Advanced" | split: "," %}
+  {% if diff_present.size > 0 %}
+  <div class="tag-filter difficulty-filter" id="difficulty-filter" role="group" aria-label="Filter by difficulty">
+    <span class="filter-label">DIFFICULTY</span>
+    {% for d in diff_order %}
+      {% if diff_present contains d %}
+        <button type="button" class="tag-chip tag-chip--diff badge-diff--{{ d | downcase }}" data-difficulty="{{ d | downcase }}" aria-pressed="false">{{ d }}</button>
+      {% endif %}
     {% endfor %}
   </div>
   {% endif %}
@@ -70,7 +87,7 @@ and entries added within the last 30 days get a NEW badge. {% endcomment %}
         {% comment %} data-tags carries each tag AND its parent (lowercased), so
         selecting a parent chip also matches resources tagged only with a child. {% endcomment %}
         {% capture data_tags %}{% for tag in item.tags %}{% assign tlow = tag | downcase %}{% assign tparent = tag | split: " / " | first | downcase %}{{ tlow }}|{% unless tparent == tlow %}{{ tparent }}|{% endunless %}{% endfor %}{% endcapture %}
-        <div class="resource" data-tags="{{ data_tags | split: '|' | uniq | join: '|' }}">
+        <div class="resource" data-tags="{{ data_tags | split: '|' | uniq | join: '|' }}" data-difficulty="{{ item.difficulty | downcase }}">
           <div class="marker">{{ counter | prepend: '000' | slice: -3, 3 }}</div>
           <div class="body">
             <div class="title"><a href="{{ item.url }}">{{ item.title }}</a></div>
