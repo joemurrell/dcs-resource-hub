@@ -10,6 +10,7 @@
 # (401/403/405/429) are reported as warnings, not failures.
 
 require "yaml"
+require "date"
 require "net/http"
 require "uri"
 
@@ -68,7 +69,9 @@ def check(url)
   end
 end
 
-data = YAML.safe_load_file(RESOURCES)
+# resources.yml carries `date:` fields, which parse to Date objects. safe_load
+# rejects those unless Date is explicitly permitted, so allow it here.
+data = YAML.safe_load_file(RESOURCES, permitted_classes: [Date])
 items = (data && data["items"]) || []
 
 failures = []
