@@ -32,7 +32,7 @@ collections:
                 name: "difficulty"
                 widget: "select"
                 required: false
-                options: ["Beginner", "Intermediate", "Advanced"]
+                options: ["Foundational", "Intermediate", "Advanced"]
               - label: "Tags"
                 name: "tags"
                 widget: "select"
@@ -42,13 +42,20 @@ collections:
                 # The site groups by the parent and shows children as nested
                 # filter chips. Add sub-tags here as needed.
                 options:
+                  - "Undergraduate Pilot Training"
+                  - "Introduction to Fighter Fundamentals"
+                  - "Initial Qualification Training"
+                  - "Mission Qualification Training"
+                  - "Air-to-Air"
+                  - "Air-to-Air / BFM"
+                  - "Air-to-Air / ACM"
+                  - "Air-to-Air / BVR"
+                  - "Air-to-Air / DCA"
                   - "Air-to-Ground"
                   - "Air-to-Ground / CAS"
                   - "Air-to-Ground / SEAD"
                   - "Air-to-Ground / Strike"
-                  - "Air-to-Air"
-                  - "Air-to-Air / BVR"
-                  - "Air-to-Air / BFM"
+                  - "Air-to-Ground / OCA"
                   - "Tools"
                   - "News"
                   - "Utilities"
