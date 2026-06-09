@@ -1,10 +1,4 @@
 items:
-  - title: BVR Timeline Generator
-    url: https://github.com/strapi/LaunchPad
-    excerpt: An excellent tool for calculating your timeline intervals.
-    tags:
-      - Air-to-Air / BVR
-      - Utilities
   - title: Joint Publication 3-09.3 Close Air Support "The CAS Bible"
     url: https://irp.fas.org/doddir/dod/jp3_09_3.pdf
     excerpt: >
