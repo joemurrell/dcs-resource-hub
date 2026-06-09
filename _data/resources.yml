@@ -31,3 +31,36 @@ items:
       - F/A-18C
     excerpt: A three-part collection of checklists, data tables, CASE charts and
       other useful things for the Hornet.
+  - url: https://www.simtools.app/
+    excerpt: Web tool for creating and downloading statis or interactive checklists
+      for DCS aircraft modules.
+    title: Simtools.app
+    date: 2026-06-08
+    author: https://x.com/falconmasters
+    tags:
+      - Utilities
+  - url: https://www.alssa.mil/MTTPs/ACC/
+    title: Air Control Communication
+    author: Air Land Sea Space Application (ALSSA) Center
+    date: 2026-06-08
+    tags:
+      - Air-to-Air
+      - Air-to-Ground
+    excerpt: Official publication establishing standardized procedures for tactical
+      command and control (C2) of air operations, airspace management, and
+      air-to-air and air-to-surface communications. Covers force packaging,
+      direct air support coordination, intercept procedures, and threat warning
+      communications used across joint operations areas.
+  - excerpt: Official publication defining and standardizing brevity codes agreed
+      upon by all U.S. Service branches, designed solely to shorten radio
+      transmissions across multi-service operations. It serves as the
+      authoritative source for tactical brevity terminology and is coordinated
+      with NATO standardization bodies for alignment with Allied Communications
+      Publications.
+    url: https://www.alssa.mil/mttps/brevity/
+    author: Air Land Sea Space Application (ALSSA) Center
+    date: 2026-06-08
+    title: Multi-Service Brevity Codes
+    tags:
+      - Air-to-Ground
+      - Air-to-Air
